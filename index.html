@@ -57,8 +57,26 @@
             background: rgba(255, 255, 255, 0.15);
             border-radius: 20px; /* ✅ Softer, premium rounded corners */
             padding: 2.5px;
-            width: 420px;
+            width: 80vw; /* ✅ Stretches to 420px but shrinks on smaller screens */
+            max-width: 420px; /* ✅ Caps button width */
             backdrop-filter: blur(10px); /* ✅ Apple-style blur */
+        }
+
+        .btn {
+            margin: 20px;
+            padding: 18px 24px;
+            font-size: 20px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #4fd1c5, #2e8d87);
+            color: #121826;
+            border: none;
+            border-radius: 20px; /* ✅ Matches input field */
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            display: inline-block;
+            width: 80vw; /* ✅ Stretches to 420px but shrinks on smaller screens */
+            max-width: 420px; /* ✅ Caps button width */
+            box-shadow: 0px 6px 15px rgba(79, 209, 197, 0.3); /* ✅ Softer, premium shadow */
         }
 
         input {
@@ -77,25 +95,9 @@
 
         input::placeholder {
             color: rgba(255, 255, 255, 0.6);
-            font-weight: 420px;
             text-align: center;
             font-size: 18px;
-        }
-
-        .btn {
-            margin: 20px;
-            padding: 18px 24px;
-            font-size: 20px;
-            font-weight: 600;
-            background: linear-gradient(135deg, #4fd1c5, #2e8d87);
-            color: #121826;
-            border: none;
-            border-radius: 20px; /* ✅ Matches input field */
-            cursor: pointer;
-            transition: all 0.3s ease-in-out;
-            display: inline-block;
-            width: 420px;
-            box-shadow: 0px 6px 15px rgba(79, 209, 197, 0.3); /* ✅ Softer, premium shadow */
+            font-weight: 500;
         }
 
         .btn:hover {
