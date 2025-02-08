@@ -27,13 +27,14 @@
         }
 
         h1 {
-            font-size: 48px;
+            font-size: 42px;
             font-weight: 700;
             background: linear-gradient(135deg, #4fd1c5, #2e8d87);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin: 20px 0;
+            margin: 15px 0;
             letter-spacing: -0.5px; /* Apple-like tighter text */
+            width: 90vw; /* ✅ Stretches to 420px but shrinks on smaller screens */
         }
 
         p {
@@ -57,7 +58,7 @@
             background: rgba(255, 255, 255, 0.15);
             border-radius: 20px; /* ✅ Softer, premium rounded corners */
             padding: 2.5px;
-            width: 80vw; /* ✅ Stretches to 420px but shrinks on smaller screens */
+            width: 90vw; /* ✅ Stretches to 420px but shrinks on smaller screens */
             max-width: 420px; /* ✅ Caps button width */
             backdrop-filter: blur(10px); /* ✅ Apple-style blur */
         }
@@ -74,7 +75,7 @@
             cursor: pointer;
             transition: all 0.3s ease-in-out;
             display: inline-block;
-            width: 80vw; /* ✅ Stretches to 420px but shrinks on smaller screens */
+            width: 90vw; /* ✅ Stretches to 420px but shrinks on smaller screens */
             max-width: 420px; /* ✅ Caps button width */
             box-shadow: 0px 6px 15px rgba(79, 209, 197, 0.3); /* ✅ Softer, premium shadow */
         }
@@ -114,6 +115,7 @@
             animation: fadeIn 0.6s ease-in-out;
             letter-spacing: 0.3px;
             opacity: 0.9;
+            width: 90vw;
         }
 
         @keyframes fadeIn {
@@ -131,6 +133,7 @@
             flex-direction: column;
             align-items: center;
             gap: 15px;
+            width: 90vw; /* ✅ Stretches to 420px but shrinks on smaller screens */
         }
 
         .x-link {
