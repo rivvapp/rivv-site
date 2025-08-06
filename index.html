@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rivv - Stay Focused</title>
+    <title>Rivv - Mindful Journaling</title>
     <link rel="icon" type="image/png" href="rivv-icon.png">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
         * {
             margin: 0;
@@ -14,183 +14,514 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             text-align: center;
-            background-color: #0D1117;
-            color: #ffffff;
+            background: linear-gradient(135deg, #fdfdfd 0%, #f8f9fa 50%, #f5f7fa 100%);
+            color: #1d1d1f;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh; /* ✅ Ensures full height */
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            -webkit-overflow-scrolling: auto;
+            overscroll-behavior: none;
+            -webkit-overscroll-behavior: none;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        h1 {
-            font-size: 42px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #4fd1c5, #2e8d87);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 15px 0;
-            letter-spacing: -0.5px; /* Apple-like tighter text */
-            width: 90vw; /* ✅ Stretches to 420px but shrinks on smaller screens */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 2rem;
+            max-width: 800px;
+            width: 100%;
+            opacity: 0;
+            animation: fadeInUp 1.2s ease-out 0.3s forwards;
+            transform: translateZ(0);
+            backface-visibility: hidden;
         }
 
-        p {
-            font-size: 22px;
+        .tagline {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #5C9ACF;
+            margin-bottom: 1.8rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.6s forwards;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        .description {
+            font-size: 1.3rem;
             font-weight: 400;
-            opacity: 0.9;
-            max-width: 600px;
-            margin-bottom: 40px;
-            line-height: 1.9;
-            letter-spacing: 0.3px;
+            color: #5a6c7d;
+            max-width: 580px;
+            margin-bottom: 1.5rem;
+            line-height: 1.65;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.9s forwards;
+            letter-spacing: 0.1px;
+        }
+
+        .image-container {
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: logoFloat 1.5s ease-out forwards;
         }
 
         .image-container img {
-            width: 160px; /* ✅ Slightly smaller, balanced */
-            padding-top: 20px;
-            opacity: 0.9;
+            width: 100px;
+            height: auto;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: transform;
+            backface-visibility: hidden;
+        }
+
+        .image-container img:hover {
+            transform: scale(1.05) translateY(-3px) translateZ(0);
+            filter: brightness(1.05);
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 500px;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 1.8s forwards;
         }
 
         .input-container {
-            margin: 0px 20px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 20px; /* ✅ Softer, premium rounded corners */
-            padding: 2.5px;
-            width: 90vw; /* ✅ Stretches to 420px but shrinks on smaller screens */
-            max-width: 420px; /* ✅ Caps button width */
-            backdrop-filter: blur(10px); /* ✅ Apple-style blur */
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid rgba(92, 154, 207, 0.15);
+            border-radius: 20px;
+            padding: 6px;
+            width: 100%;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(20px);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+        }
+
+        .input-container:focus-within {
+            border-color: #5C9ACF;
+            box-shadow: 0 0 0 6px rgba(92, 154, 207, 0.12), 0 12px 40px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
         }
 
         .btn {
-            margin: 20px;
-            padding: 18px 24px;
-            font-size: 20px;
+            padding: 1.2rem 3rem;
+            font-size: 1.2rem;
             font-weight: 600;
-            background: linear-gradient(135deg, #4fd1c5, #2e8d87);
-            color: #121826;
+            background: linear-gradient(135deg, #5C9ACF 0%, #4a8bc2 50%, #3a7fb5 100%);
+            color: white;
             border: none;
-            border-radius: 20px; /* ✅ Matches input field */
+            border-radius: 20px;
             cursor: pointer;
-            transition: all 0.3s ease-in-out;
-            display: inline-block;
-            width: 90vw; /* ✅ Stretches to 420px but shrinks on smaller screens */
-            max-width: 420px; /* ✅ Caps button width */
-            box-shadow: 0px 6px 15px rgba(79, 209, 197, 0.3); /* ✅ Softer, premium shadow */
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            width: 100%;
+            box-shadow: 0 12px 32px rgba(92, 154, 207, 0.35);
+            font-family: 'Inter', sans-serif;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.3px;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
         }
 
         input {
             width: 100%;
-            padding: 18px;
-            font-size: 18px;
+            padding: 1.2rem 2rem;
+            font-size: 1.15rem;
             border: none;
-            border-radius: 12px;
+            border-radius: 16px;
             outline: none;
             background: transparent;
-            color: white;
-            font-weight: 500;
+            color: #1d1d1f;
+            font-weight: 450;
             text-align: center;
             font-family: 'Inter', sans-serif;
+            letter-spacing: 0.2px;
         }
 
         input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
+            color: #8b95a1;
             text-align: center;
-            font-size: 18px;
-            font-weight: 500;
+            font-size: 1.15rem;
+            font-weight: 400;
+            letter-spacing: 0.1px;
         }
 
         .btn:hover {
-            transform: scale(1.02);
-            background: linear-gradient(135deg, #4fd1c5, #2e8d87);
+            transform: translateY(-4px) translateZ(0);
+            box-shadow: 0 16px 40px rgba(92, 154, 207, 0.45);
+            background: linear-gradient(135deg, #6ba5d4 0%, #5591c7 50%, #4687ba 100%);
+        }
+
+        .btn:active {
+            transform: translateY(-2px) translateZ(0);
+            box-shadow: 0 8px 20px rgba(92, 154, 207, 0.4);
         }
 
         .confirmation {
             display: none;
-            font-size: 24px;
-            font-weight: 600;
-            color: #4fd1c5;
-            margin-top: 40px;
-            animation: fadeIn 0.6s ease-in-out;
-            letter-spacing: 0.3px;
-            opacity: 0.9;
-            width: 90vw;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #5C9ACF;
+            margin-top: 2rem;
+            animation: celebrationPulse 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(92, 154, 207, 0.1) 0%, rgba(92, 154, 207, 0.05) 100%);
+            border-radius: 24px;
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(92, 154, 207, 0.2);
+            box-shadow: 0 12px 40px rgba(92, 154, 207, 0.15);
+            position: relative;
+            overflow: hidden;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .confirmation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s ease-out 0.5s;
+        }
+
+        .features {
+            display: flex;
+            gap: 2.5rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 1.2s forwards;
+        }
+
+        .feature {
+            text-align: center;
+            max-width: 150px;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: transform;
+        }
+
+        .feature:hover {
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            width: 88px;
+            height: 88px;
+            margin: 0 auto 1rem auto;
+            background: linear-gradient(135deg, #5C9ACF 0%, #4a8bc2 100%);
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 12px 36px rgba(92, 154, 207, 0.25);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: transform, box-shadow;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+            border-radius: 22px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature-icon:hover {
+            transform: translateY(-4px) scale(1.08);
+            box-shadow: 0 16px 40px rgba(92, 154, 207, 0.3);
+        }
+
+        .feature-icon:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon svg {
+            width: 44px;
+            height: 44px;
+            fill: white;
+            filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.15));
+            transition: transform 0.3s ease;
+            z-index: 1;
+            position: relative;
+        }
+
+        .feature-icon:hover svg {
+            transform: scale(1.15);
+        }
+
+        .feature-text {
+            font-size: 1rem;
+            color: #5a6c7d;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+        }
+
+        .platforms {
+            margin: 1.5rem 0;
+            font-size: 1.1rem;
+            color: #5a6c7d;
+            font-weight: 600;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 1.5s forwards;
+            letter-spacing: 0.5px;
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(92, 154, 207, 0.1);
         }
 
         .footer {
-            margin-top: auto; /* ✅ Pushes footer to bottom */
-            padding-top: 50px;
-            padding-bottom: 20px;
-            font-size: 15px;
-            opacity: 0.6;
+            margin-top: auto;
+            padding: 3rem 1rem;
+            font-size: 1rem;
+            color: #8b95a1;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 15px;
-            width: 90vw; /* ✅ Stretches to 420px but shrinks on smaller screens */
+            gap: 1.5rem;
+            border-top: 1px solid rgba(92, 154, 207, 0.12);
+            width: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 249, 250, 0.9) 100%);
+            backdrop-filter: blur(20px);
         }
 
-        .x-link {
-            color: #4fd1c5;
+        .social-link {
+            color: #5C9ACF;
             text-decoration: none;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 16px;
-            opacity: 0.9;
-            transition: opacity 0.2s ease-in-out;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        .x-link img {
-            width: 18px;
-            height: 18px;
+        .social-link:hover {
             opacity: 0.8;
+            transform: translateY(-1px);
         }
 
-        .x-link:hover {
-            opacity: 1;
+        /* Animations */
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        @keyframes logoFloat {
+            0% { 
+                opacity: 0; 
+                transform: scale(0.8) translateY(20px); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: scale(1) translateY(0); 
+            }
+        }
+
+        @keyframes celebrationPulse {
+            0% { 
+                opacity: 0; 
+                transform: translateY(20px) scale(0.9); 
+            }
+            50% { 
+                opacity: 1; 
+                transform: translateY(-5px) scale(1.02); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        @media (max-width: 768px) {
+            .tagline {
+                font-size: 2rem;
+            }
+            
+            .description {
+                font-size: 1.2rem;
+                padding: 0 1rem;
+                margin-bottom: 2.5rem;
+            }
+            
+            .features {
+                gap: 1.5rem;
+                margin: 2rem 0;
+            }
+            
+            .feature {
+                max-width: 130px;
+            }
+
+            .main-content {
+                padding: 2rem 1rem;
+            }
+
+            .image-container img {
+                width: 80px;
+                height: auto;
+            }
+
+            .platforms {
+                margin: 2rem 0;
+                font-size: 1rem;
+                padding: 0.8rem 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="image-container">
-        <img src="rivv-icon.png" alt="Rivv Logo">
+    <div class="main-content">
+        <div class="image-container">
+            <img src="rivv-icon.png" alt="Rivv App Icon">
+        </div>
+
+        <div class="tagline">Mindful Journaling</div>
+        <p class="description">
+            A quiet space to pause, reflect, and reconnect with what matters. Rivv helps you journal intentions and emotions with ease—beautifully designed for mindful, meaningful living.
+        </p>
+        
+        <div class="features">
+            <div class="feature">
+              <div class="feature-icon">
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                viewBox="0 0 512.001 512.001" style="enable-background:new 0 0 512.001 512.001;" xml:space="preserve">
+           <g>
+               <g>
+                   <path d="M508.374,362.235c-1.457-1.966-23.959-31.866-58.32-53.623c36.613-51.562,25.901-127.469,25.381-130.97
+                       c-1.194-8.031-7.499-14.338-15.531-15.531c-2.922-0.434-56.355-7.98-103.928,10.871c-21.638-67.258-85.57-115.363-88.821-117.773
+                       c-6.523-4.835-15.441-4.835-21.964,0c-3.254,2.412-67.33,50.629-88.891,118.012C108.576,154.061,54.697,161.673,51.76,162.11
+                       c-8.031,1.193-14.338,7.499-15.531,15.531c-0.521,3.504-11.252,79.553,25.485,131.116c-34.23,21.745-56.633,51.516-58.087,53.477
+                       c-4.836,6.523-4.836,15.441,0,21.964c2.306,3.112,57.325,76.221,128.671,76.22c59.992,0,108.431-51.686,123.702-69.989
+                       c15.271,18.303,63.712,69.99,123.702,69.989c71.346,0,126.365-73.109,128.671-76.22
+                       C513.21,377.676,513.21,368.758,508.374,362.235z M362.899,210.125c26.461-12.78,58.926-13.572,77.247-12.724
+                       c1.103,23.861-0.548,71.716-27.876,99.041c-24.78,24.781-66.447,28.447-91.778,28.092c22.065-28.324,42.578-65.969,42.578-108.061
+                       C363.07,214.344,363.001,212.231,362.899,210.125z M71.528,197.286c20.748-0.975,52.59,0.917,77.908,13.278
+                       c-0.089,1.961-0.15,3.928-0.15,5.91c0,42.136,20.555,79.816,42.645,108.149c-27.573,0.396-68.829-4.475-92.535-28.182
+                       C72.028,269.074,70.415,221.107,71.528,197.286z M132.298,423.538c-38.641,0-73.65-32.669-89.743-50.321
+                       c9.696-10.635,26.264-26.715,46.352-37.825c31.802,21.739,72.286,26.07,99.434,26.07c8.679,0,15.978-0.441,21.21-0.896
+                       c4.936,4.62,9.178,9.017,12.565,12.736C203.801,393.418,168.573,423.538,132.298,423.538z M256.154,339.013
+                       c-22.146-19.471-69.986-67.866-69.986-122.54c0-54.437,47.86-102.972,70.01-122.516c22.148,19.543,70.012,68.078,70.012,122.516
+                       C326.189,270.939,278.281,319.494,256.154,339.013z M379.703,423.538c-38.704,0-73.76-32.776-89.817-50.407
+                       c3.553-3.902,7.75-8.183,12.46-12.544c5.214,0.448,12.43,0.875,20.98,0.875c27.19,0,67.757-4.347,99.581-26.172
+                       c20.176,11.115,36.82,27.263,46.542,37.926C453.357,390.867,418.348,423.538,379.703,423.538z"/>
+               </g>
+           </g>
+           </svg>
+              </div>
+              <div class="feature-text">Reflect</div>
+            </div>
+          
+            <div class="feature">
+                             <div class="feature-icon">
+                 <!-- Feel = heart icon -->
+                 <svg fill="#000000" width="800px" height="800px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.16,5A6.29,6.29,0,0,0,12,4.36a6.27,6.27,0,0,0-8.16,9.48l6.21,6.22a2.78,2.78,0,0,0,3.9,0l6.21-6.22A6.27,6.27,0,0,0,20.16,5Zm-1.41,7.46-6.21,6.21a.76.76,0,0,1-1.08,0L5.25,12.43a4.29,4.29,0,0,1,0-6,4.27,4.27,0,0,1,6,0,1,1,0,0,0,1.42,0,4.27,4.27,0,0,1,6,0A4.29,4.29,0,0,1,18.75,12.43Z"/></svg>
+               </div>
+              <div class="feature-text">Feel</div>
+            </div>
+          
+            <div class="feature">
+                             <div class="feature-icon">
+                 <!-- Grow = leaf icon -->
+                 <svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 13V21M12 12.8573C12 8.466 15.5381 4.9011 19.919 4.85767C19.9724 5.2308 20 5.61224 20 6.00012C20 10.3914 16.4619 13.9563 12.081 13.9997C12.0276 13.6266 12 13.2451 12 12.8573ZM12 12.8573C12 8.466 8.46195 4.9011 4.08096 4.85767C4.02761 5.2308 4 5.61224 4 6.00012C4 10.3914 7.53805 13.9563 11.919 13.9997C11.9724 13.6266 12 13.2451 12 12.8573Z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>     
+        </div>
+              <div class="feature-text">Grow</div>
+            </div>
+          </div>
+
+        <div class="platforms">
+            Available soon on iPhone, iPad & Mac
+        </div>
+            
+        <div class="form-container">
+            <form id="waitlistForm" action="https://docs.google.com/forms/d/e/1FAIpQLSeJsamtOVKuePHQ9mCeWOiMmSMe2v2l06r6a_LbN--Ad86zfw/formResponse" method="POST" target="hidden_iframe" onsubmit="return submitForm();">
+                <div class="input-container">
+                    <input type="email" name="entry.1611607783" id="email" placeholder="Enter your email for early access" required>
+                </div>
+                <button type="submit" class="btn">Join the Waitlist</button>
+            </form>
+
+            <iframe name="hidden_iframe" style="display:none;"></iframe>    
+
+            <div id="confirmationMessage" class="confirmation">✓ Welcome to Rivv! We'll notify you when we launch on the App Store.</div>
+        </div>
     </div>
 
-    <h1>Rivv - Stay Focused</h1>
-    <p>
-        No distractions.<br>
-        More progress.<br>
-        Full control.
-    </p>
-        
-    <form id="waitlistForm" action="https://docs.google.com/forms/d/e/1FAIpQLSeJsamtOVKuePHQ9mCeWOiMmSMe2v2l06r6a_LbN--Ad86zfw/formResponse" method="POST" target="hidden_iframe" onsubmit="return submitForm();">
-        <div class="input-container">
-            <input type="email" name="entry.1611607783" id="email" placeholder="Enter your email" required>
-        </div>
-        <button type="submit" class="btn">Join the Waitlist</button>
-    </form>
-
-    <iframe name="hidden_iframe" style="display:none;"></iframe>    
-
-    <div id="confirmationMessage" class="confirmation">🎉 <b>You're in!</b> Thanks for joining the waitlist.</div>
-
     <div class="footer">
-        <span>© 2025 Rivv. All rights reserved. Available exclusively on the <strong>App Store</strong>.</span>    </span>
-        <a href="https://x.com/RivvApp" target="_blank" class="x-link">
-            Follow us on X
+        <span>© 2025 Rivv. All rights reserved. Coming soon to the App Store.</span>
+        <a href="https://x.com/RivvApp" target="_blank" class="social-link">
+            Follow us on X for updates
         </a>
     </div>
 
     <script>
+        // Force scroll to top on page load
+        window.addEventListener('beforeunload', function() {
+            window.scrollTo(0, 0);
+        });
+
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                window.scrollTo(0, 0);
+            }, 0);
+        });
+
+        // Ensure page starts at top on refresh
+        if (history.scrollRestoration) {
+            history.scrollRestoration = 'manual';
+        }
+
         function validateEmail() {
             var email = document.getElementById('email').value;
             var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
